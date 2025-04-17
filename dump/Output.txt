@@ -1,0 +1,7 @@
+digraph structs
+{
+  rankdir=HR;
+  first [shape=record,label="  x1\n all | { x21 | <f0> x22| x23} | x3" ];
+  second [shape=record,label=" x22_1 | x22_2 | x22_3"];
+  first:<f0> -> second;
+}
