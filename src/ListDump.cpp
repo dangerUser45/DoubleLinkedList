@@ -8,6 +8,9 @@
 
 #include <Color.h>
 
+extern FILE* log_file;
+extern FILE* graphviz_file;
+
 //--------------------------------------------------------------
 #define DumpPart(text) \
 { \
@@ -28,6 +31,7 @@ LIST_ERROR ListDump (List* list)
     if (list == NULL)
     {
         fprintf (stderr, RED "ERROR: %s %d ListDump(): list = NULL" RESET, __FILE__, __LINE__);
+        fflush (stdout);
         return NODE_ARRAY_NULL;
     }
 
@@ -35,6 +39,7 @@ LIST_ERROR ListDump (List* list)
 
     fprintf (stdout,  BLUE "list pointer  = " RESET "%p\n", list);
     fprintf (stdout,  BLUE "list capacity = " RESET "%zu\n\n", list -> capacity);
+    fflush (stdout);
 
     DumpPart(head);
     DumpPart(tail);
@@ -49,16 +54,17 @@ LIST_ERROR ListDump (List* list)
         fprintf (stdout, "Node_array[%zu] -> next = %p\n", i, node_array[i].next);
         fprintf (stdout, "Node_array[%zu] -> prev = %p\n", i, node_array[i].prev);
         fprintf (stdout, "Node_array[%zu] -> data = %" TYPE_SPECIFIER "\n\n", i, node_array[i].data);
+        fflush  (stdout);
     }
 
     fprintf (stdout, YELLOW "---------------------------------\n" RESET);
+    fflush (stdout);
     return NO_ERROR;
 }
 //--------------------------------------------------------------
-LIST_ERROR ListGraphDump ()
+LIST_ERROR ListGraphDump (List* list)
 {
-
+    fprintf (log_file, "\t\t\t<font color = red> DUMP\n</font>");
     return NO_ERROR;
 }
 //--------------------------------------------------------------
-

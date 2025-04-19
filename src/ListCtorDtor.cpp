@@ -7,6 +7,9 @@
 
 #include <Color.h>
 
+FILE*      log_file;
+FILE* graphviz_file;
+
 //--------------------------------------------------------------
 LIST_ERROR CtorListCommon (List* list)
 {
@@ -21,10 +24,8 @@ LIST_ERROR CtorListCommon (List* list)
     list -> head = list -> tail = list -> last_insert = &(list -> node_array[0]);
     list -> capacity = START_SIZE_NODE_ARRAY;
 
-    // DBG
-    // (
-    //    FILE* Graphviz_file = OpenFile ();
-    // )
+    log_file      = OpenFile (NAME_LOG_FILE,      "w+");
+    graphviz_file = OpenFile (NAME_GRAPHVIZ_FILE, "w+");
 
     return NO_ERROR;
 }
@@ -32,6 +33,8 @@ LIST_ERROR CtorListCommon (List* list)
 LIST_ERROR DtorListCommon (List* list)
 {
     free (list -> node_array); list -> node_array = NULL;
+    CloseFile (log_file);
+    CloseFile (graphviz_file);
 
     return NO_ERROR;
 }
@@ -48,4 +51,14 @@ FILE* OpenFile (const char *__restrict filename, const char *__restrict modes)
     return file_ptr;
 }
 //--------------------------------------------------------------
+LIST_ERROR CloseFile (FILE* file)
+{
+    if (!fclose (file))
+    {
+        fprintf (stdout, RED "ERROR in %s: %d line: file didn't close" RESET, __FILE__, __LINE__);
+        return FILE_NOT_CLOSE;
+    }
 
+    return NO_ERROR;
+}
+//--------------------------------------------------------------

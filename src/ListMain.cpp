@@ -8,18 +8,26 @@
 //--------------------------------------------------------------
 int main ()
 {
-    DBG(printf ("check\n");)
     List list = {}; CtorListCommon (&list);
-    ListDump (&list);
+    ListDump (&list); getchar ();
 
-    InsertHead (&list, 777);
-    InsertHead (&list, 666);
-    InsertHead (&list, 555);
+    InsertTail (&list, 777); ListDump (&list);
+    InsertTail (&list, 666); ListDump (&list);
+    InsertTail (&list, 555); ListDump (&list);
+    //InsertTail (&list, 444); ListDump (&list);
+    //InsertTail (&list, 333); ListDump (&list);
 
-    ListDump (&list);
+    InsertData (&list, &(list.node_array[0]), 51); ListDump (&list);
+    InsertData (&list, &(list.node_array[1]), 61); ListDump (&list);
+    InsertData (&list, &(list.node_array[2]), 71); ListDump (&list);
+    InsertData (&list, &(list.node_array[3]), 81); ListDump (&list);
+    InsertData (&list, &(list.node_array[9000]), 91); ListDump (&list); getchar ();
 
-//     InsertHead (&list, 444);
-//     InsertHead (&list, 333);
+    InsertAfter (&list, 123, &(list.node_array[2])); ListDump (&list);
+
+    //InsertAfter (&list, 600, &(list.node_array[0])); ListDump (&list);
+//     InsertTail (&list, 222); ListDump (&list);
+
 //     InsertHead (&list, 222);
 //     InsertHead (&list, 111);
 //
