@@ -15,3 +15,4 @@ LIST_ERROR InsertBelow (List* list, TYPE_DATA data, list_node* node);
 LIST_ERROR InsertData (List* list, list_node* node, TYPE_DATA data);
 
 list_node* FindData (List* list, TYPE_DATA data);
+LIST_ERROR FindIndex (List* list, list_node* searched_node, size_t* dest);

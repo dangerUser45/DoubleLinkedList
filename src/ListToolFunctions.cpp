@@ -200,3 +200,22 @@ list_node* FindData (List* list, TYPE_DATA data)
     return 0;
 }
 //--------------------------------------------------------------
+LIST_ERROR FindIndex (List* list, list_node* searched_node, size_t* dest)
+{
+    CHECK_NULL_POINTERS(list, searched_node);
+    CHECK_INVALID_ADDRESS(searched_node);
+
+    list_node* node = list -> head;
+    size_t delta = ( (size_t)(list -> last_insert) - (size_t)(list -> node_array) ) / sizeof (list_node);
+
+    for (size_t i = 0; i < delta + 1; ++i)
+    {
+        if (node == searched_node)
+            *dest = i;
+
+        node = node -> next;
+    }
+
+    return NO_ERROR;
+}
+//--------------------------------------------------------------

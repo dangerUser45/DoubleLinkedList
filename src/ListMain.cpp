@@ -9,19 +9,20 @@
 int main ()
 {
     List list = {}; CtorListCommon (&list);
-    ListDump (&list); getchar ();
+    ListDump (&list);
 
-    InsertTail (&list, 777); ListDump (&list);
-    InsertTail (&list, 666); ListDump (&list);
+    InsertTail (&list, 111); ListDump (&list);
+    InsertTail (&list, 222); ListDump (&list);
+    InsertTail (&list, 333); ListDump (&list);
+    InsertTail (&list, 443); ListDump (&list);
     InsertTail (&list, 555); ListDump (&list);
-    //InsertTail (&list, 444); ListDump (&list);
-    //InsertTail (&list, 333); ListDump (&list);
+
+    InsertAfter (&list, 400, &(list.node_array[2])); ListDump (&list);
+    InsertBelow (&list, -999, list.head); ListDump (&list);
 
     InsertData (&list, &(list.node_array[0]), 51); ListDump (&list);
-    InsertData (&list, &(list.node_array[1]), 61); ListDump (&list);
-    InsertData (&list, &(list.node_array[2]), 71); ListDump (&list);
-    
-    InsertAfter (&list, 123, &(list.node_array[2])); ListDump (&list);
+
+
     ListGraphDump (&list);
 
     //InsertAfter (&list, 600, &(list.node_array[0])); ListDump (&list);
