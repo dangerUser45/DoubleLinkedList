@@ -7,6 +7,9 @@
 #include <ListErrors.h>
 #include <Color.h>
 
+extern FILE*      log_file;
+extern FILE* graphviz_file;
+
 //--------------------------------------------------------------
 #define CHECK_NULL_POINTERS(list, node, ... ) \
 {\
@@ -186,7 +189,7 @@ list_node* FindData (List* list, TYPE_DATA data)
     size_t capacity = list -> capacity;
     list_node* node = list -> head;
 
-    for (int i = 0; i < capacity; ++i)
+    for (size_t i = 0; i < capacity; ++i)
     {
         if (node -> data == data)
             return node;
