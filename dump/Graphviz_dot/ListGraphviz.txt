@@ -1,9 +1,14 @@
 digraph
 {
-	rankdir = LR;
+	rankdir=LR;				// Горизонтальная ориентация
+    newrank=true;        	// Улучшенный алгоритм ранжирования
+    compound=true;       	// Разрешить сложные связи
 
 	bgcolor   = "#b2dcff";  // Цвет фона - светло-синий
 	fontcolor = "black";    // Цвет текста
+
+	nodesep = 0.5;  // Расстояние между узлами по горизонтали
+    ranksep = 2.0;  // Расстояние между уровнями по вертикали
 
 	//------------------------------------------------------------------------------------------------------------------
 	subgraph cluster_node_array_sort
@@ -12,41 +17,40 @@ digraph
 		edge [color = black];
 		color = "#b2dcff";
 
+		subgraph cluster_node_0_sort
+		{
+			node_0_sort [label = "address = 0x57cd1f5492a0 | next: 0x57cd1f5492b8 | data: 51 | prev: 0x57cd1f5492e8"];
+			label = "0";
+		}
+
 		subgraph cluster_node_1_sort
 		{
-			node_1_sort [label = "address = 0x1232131233 | next: 0x12321323 | data: 666 | prev: 0x3324324"];
-			label = "3";
+			node_1_sort [label = "address = 0x57cd1f5492b8 | next: 0x57cd1f5492d0 | data: 61 | prev: 0x57cd1f5492a0"];
+			label = "1";
 		}
 
 		subgraph cluster_node_2_sort
 		{
-			node_2_sort [label = "address = 0x1232131233 | next: 0x12321323 | data: 777 | prev: 0x3324324"];
+			node_2_sort [label = "address = 0x57cd1f5492d0 | next: 0x57cd1f5492e8 | data: 71 | prev: 0x57cd1f5492b8"];
 			label = "2";
-		}
-
-		subgraph cluster_node_3_sort
-		{
-			node_3_sort [label = "address = 0x1232131233 | next: 0x12321323 | data: 888 | prev: 0x3324324"];
-			label = "4";
-		}
-
-		subgraph cluster_node_4_sort
-		{
-			node_4_sort [label = "address = 0x1232131233 | next: 0x12321323 | data: 999 | prev: 0x3324324"];
-			label = "1";
-		}
-
-		subgraph cluster_node_5_sort
-		{
-			node_5_sort [label = "address = 0x1232131233 | next: 0x12321323 | data: 000 | prev: 0x3324324"];
-			label = "5";
 		}
 
 		fontsize = "20";
 		fontcolor = black;
 		label = "Node array sort";
 		color =  "#b2dcff";
-		node_1_sort -> node_2_sort -> node_3_sort -> node_4_sort -> node_5_sort;
+		node_0_sort -> node_1_sort;
+		node_1_sort -> node_2_sort;
+		//node_2_sort -> node_3_sort;
+		//node_3_sort -> node_4_sort;
+		node_2_sort -> node_0_sort;
+
+		edge [color = red];
+		//node_4_sort -> node_3_sort;
+		//node_3_sort -> node_2_sort;
+		node_2_sort -> node_1_sort;
+		node_1_sort -> node_0_sort;
+		node_0_sort -> node_2_sort;
 	}
 
 	//------------------------------------------------------------------------------------------------------------------
@@ -99,11 +103,11 @@ digraph
 		edge [color = "#b2dcff"];
 		color = "#b2dcff";
 
-		head [label = "address = 0x1232131233 | next: 0x12321323 | data: 333 | prev: 0x3324324 "]
-		tail [label = "address = 0x1232131233 | next: 0x12321323 | data: 444 | prev: 0x3324324 "]
-		last_insert [label = "address = 0x1232131233 | next: 0x12321323 | data: 555 | prev: 0x3324324 "]
+		head [label = "address = 0x57cd1f5492a0 | next: 0x57cd1f5492b8 | data: 51 | prev: 0x57cd1f5492e8 "]
+		tail [label = "address = 0x57cd1f5492e8 | next: 0x57cd1f5492a0 | data: 123 | prev: 0x57cd1f5492d0 "]
+		last_insert [label = "address = 0x57cd1f5492e8 | next: 0x57cd1f5492a0 | data: 123 | prev: 0x57cd1f5492d0 "]
 
-		data [label = "list pointer = 0x12342324 | list capacity = 5 | list node array = 0x2134234ewq"]
+		data [label = "list pointer = 0x7ffdcc4cafc0 | list capacity = 5 | list node array = 0x57cd1f5492a0"]
 
 		subgraph cluster_node_list_data
 		{

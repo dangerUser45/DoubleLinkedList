@@ -117,47 +117,45 @@ LIST_ERROR ListCreateDotText (List* list)
         "{\n\t\t"
             "node [shape = Mrecord, style = filled, color= black, fillcolor = \"" NODE_ARRAY_COLOR "\"]; // цвет - светло-зелёный\n\t\t"
             "edge [color = black];\n\t\t"
-            "color = \"" BACKGROUND_COLOR "\";\n\n\t\t"
+            "color = \"" BACKGROUND_COLOR "\";\n\n\t\t");
 
-            "subgraph cluster_node_1_sort\n\t\t"
-            "{\n\t\t\t"
-                "node_1_sort [label = \"address = 0x1232131233 | next: 0x12321323 | data: 666 | prev: 0x3324324\"];\n\t\t\t"
-                "label = \"3\";\n\t\t"
-            "}\n\n\t\t"
+            list_node* node = list -> head;
+            size_t delta = ( (size_t)(list -> last_insert) - (size_t)(list -> node_array) ) / sizeof (list_node);
 
-            "subgraph cluster_node_2_sort\n\t\t"
-            "{\n\t\t\t"
-                "node_2_sort [label = \"address = 0x1232131233 | next: 0x12321323 | data: 777 | prev: 0x3324324\"];\n\t\t\t"
-                "label = \"2\";\n\t\t"
-            "}\n\n\t\t"
+            for (size_t i = 0; i < delta + 1; ++i)
+            {
+                fprintf (list_graphviz_file,""
+                "subgraph cluster_node_%zu_sort\n\t\t"
+                "{\n\t\t\t"
+                    "node_%zu_sort [label = \"address = %p | next: %p | data: %" TYPE_SPECIFIER " | prev: %p\"];\n\t\t\t"
+                    "label = \"%zu\";\n\t\t"
+                "}\n\n\t\t", i, i, node, node -> next, node -> data, node -> prev, i);
 
-            "subgraph cluster_node_3_sort\n\t\t"
-            "{\n\t\t\t"
-                "node_3_sort [label = \"address = 0x1232131233 | next: 0x12321323 | data: 888 | prev: 0x3324324\"];\n\t\t\t"
-                "label = \"4\";\n\t\t"
-            "}\n\n\t\t"
+                node = node -> next;
+            }
 
-            "subgraph cluster_node_4_sort\n\t\t"
-            "{\n\t\t\t"
-                "node_4_sort [label = \"address = 0x1232131233 | next: 0x12321323 | data: 999 | prev: 0x3324324\"];\n\t\t\t"
-                "label = \"1\";\n\t\t"
-            "}\n\n\t\t"
-
-            "subgraph cluster_node_5_sort\n\t\t"
-            "{\n\t\t\t"
-                "node_5_sort [label = \"address = 0x1232131233 | next: 0x12321323 | data: 000 | prev: 0x3324324\"];\n\t\t\t"
-                "label = \"5\";\n\t\t"
-            "}\n\n\t\t"
-
+            fprintf (list_graphviz_file,""
             "fontsize = \"20\";\n\t\t"
             "fontcolor = black;\n\t\t"
             "label = \"Node array sort\";\n\t\t"
-            "color =  \"" BACKGROUND_COLOR "\";\n\t\t"
-            "node_1_sort -> node_2_sort -> node_3_sort -> node_4_sort -> node_5_sort;\n\t"
-        "}\n\n\t"
+            "color =  \"" BACKGROUND_COLOR "\";\n\t\t");
 
+            for (size_t i = 0; i < delta; ++i)
+                fprintf (list_graphviz_file, "node_%zu_sort -> node_%zu_sort;\n\t\t", i, i + 1);
+
+            fprintf (list_graphviz_file, "node_%zu_sort -> node_%zu_sort;\n\n\t\t", delta, (size_t)0);
+
+            fprintf (list_graphviz_file,""
+            "edge [color = red];\n\t\t");
+
+            for (size_t i = delta, j = 0; j < capacity - 1; --i, ++j)
+                fprintf (list_graphviz_file, "node_%zu_sort -> node_%zu_sort;", i, i - 1);
+
+            fprintf (list_graphviz_file, "node_%zu_sort -> node_%zu_sort;\n\n\t\t", (size_t)0, delta);
+
+    fprintf (list_graphviz_file, "\n\t}\n\n\t"
     "//------------------------------------------------------------------------------------------------------------------\n\t"
-        "subgraph cluster_node_array_unsort\n\t"
+        "subgraph cluster_node_array_unsort\n\t" //NOTE do in an unsorted array, mapping as in a node array located in memory
         "{\n\t\t"
             "node [shape = Mrecord, style = filled, color = black, fillcolor = \"" NODE_ARRAY_COLOR "\"];\n\t\t"
             "edge [color = black];\n\t\t"
@@ -199,8 +197,8 @@ LIST_ERROR ListCreateDotText (List* list)
             "label = \"Node array\";"
             "color = \"" BACKGROUND_COLOR "\";\n\t\t"
             "node_1 -> node_2 -> node_3 -> node_4 -> node_5;\n\t"
-        "}\n\n\t"
-
+        "}\n\n\t");
+    fprintf (list_graphviz_file, ""
     "//-----------------------------------------------------------------------------------------------------------------\n\t"
         "subgraph cluster_struct_list\n\t"
         "{\n\t\t"
@@ -208,11 +206,11 @@ LIST_ERROR ListCreateDotText (List* list)
             "edge [color = \"" BACKGROUND_COLOR "\"];\n\t\t"
             "color = \"" BACKGROUND_COLOR "\";\n\n\t\t"
 
-            "head [label = \"address = 0x1232131233 | next: 0x12321323 | data: 333 | prev: 0x3324324 \"]\n\t\t"
-            "tail [label = \"address = 0x1232131233 | next: 0x12321323 | data: 444 | prev: 0x3324324 \"]\n\t\t"
-            "last_insert [label = \"address = 0x1232131233 | next: 0x12321323 | data: 555 | prev: 0x3324324 \"]\n\n\t\t"
+            "head [label = \"address = %p | next: %p | data: %" TYPE_SPECIFIER " | prev: %p \"]\n\t\t"
+            "tail [label = \"address = %p | next: %p | data: %" TYPE_SPECIFIER " | prev: %p \"]\n\t\t"
+            "last_insert [label = \"address = %p | next: %p | data: %" TYPE_SPECIFIER " | prev: %p \"]\n\n\t\t"
 
-            "data [label = \"list pointer = 0x12342324 | list capacity = 5 | list node array = 0x2134234ewq\"]\n\n\t\t"
+            "data [label = \"list pointer = %p | list capacity = %zu | list node array = %p\"]\n\n\t\t"
 
             "subgraph cluster_node_list_data\n\t\t"
             "{\n\t\t\t"
@@ -249,7 +247,10 @@ LIST_ERROR ListCreateDotText (List* list)
             "data -> head -> tail -> last_insert;\n\t"
         "}\n\t"
     "//------------------------------------------------------------------------------------------------------------------\n"
-    "}\n");
+    "}\n", list -> head, list -> head -> next, list -> head -> data, list -> head -> prev,
+           list -> tail, list -> tail -> next, list -> tail -> data, list -> tail -> prev,
+           list -> last_insert, list -> last_insert -> next, list -> last_insert -> data, list -> last_insert -> prev,
+           list, list -> capacity, list -> node_array);
     fflush (list_graphviz_file);
 
     return NO_ERROR;

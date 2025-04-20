@@ -20,9 +20,7 @@ int main ()
     InsertData (&list, &(list.node_array[0]), 51); ListDump (&list);
     InsertData (&list, &(list.node_array[1]), 61); ListDump (&list);
     InsertData (&list, &(list.node_array[2]), 71); ListDump (&list);
-    InsertData (&list, &(list.node_array[3]), 81); ListDump (&list);
-    InsertData (&list, &(list.node_array[9000]), 91); ListDump (&list); getchar ();
-
+    
     InsertAfter (&list, 123, &(list.node_array[2])); ListDump (&list);
     ListGraphDump (&list);
 
