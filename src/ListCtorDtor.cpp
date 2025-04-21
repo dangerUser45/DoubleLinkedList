@@ -24,7 +24,7 @@ LIST_ERROR CtorListCommon (List* list)
     list -> head = list -> tail = list -> last_insert = &(list -> node_array[0]);
     list -> capacity = START_SIZE_NODE_ARRAY;
 
-    list_log_file      = OpenFile (NAME_LIST_LOG_FILE, "w");
+    list_log_file      = OpenFile (NAME_LIST_LOG_FILE,      "w");
     list_graphviz_file = OpenFile (NAME_LIST_GRAPHVIZ_FILE, "w");
 
     return NO_ERROR;

@@ -4,15 +4,17 @@
 #include <ListErrors.h>
 
 //--------------------------------------------------------------
-LIST_ERROR CheckOverFlow (List* list);
+LIST_ERROR ListCheckOverFlow (List* list);
 
-LIST_ERROR InsertHead (List* list, TYPE_DATA data);
-LIST_ERROR InsertTail (List* list, TYPE_DATA data);
+LIST_ERROR ListInsertHead  (List* list, TYPE_DATA data);
+LIST_ERROR ListInsertTail  (List* list, TYPE_DATA data);
 
-LIST_ERROR InsertAfter (List* list, TYPE_DATA data, list_node* node);
-LIST_ERROR InsertBelow (List* list, TYPE_DATA data, list_node* node);
+LIST_ERROR ListInsertAfter (List* list, TYPE_DATA data, list_node* node);
+LIST_ERROR ListInsertBelow (List* list, TYPE_DATA data, list_node* node);
 
-LIST_ERROR InsertData (List* list, list_node* node, TYPE_DATA data);
+LIST_ERROR ListInsertData  (List* list, list_node* node, TYPE_DATA data);
 
-list_node* FindData (List* list, TYPE_DATA data);
-LIST_ERROR FindIndex (List* list, list_node* searched_node, size_t* dest);
+LIST_ERROR ListFindData (List* list, TYPE_DATA data, list_node** dest);
+LIST_ERROR ListFindIndex   (List* list, list_node* searched_node, size_t* dest);
+LIST_ERROR ListFindNode (List* list, size_t index, list_node** dest);
+

@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <limits.h>
 
 #include <ListConsts.h>
 #include <ListToolFunctions.h>
@@ -7,11 +8,10 @@
 #include <ListErrors.h>
 #include <Color.h>
 
-extern FILE*      log_file;
-extern FILE* graphviz_file;
+extern FILE* list_log_file;
 
 //--------------------------------------------------------------
-#define CHECK_NULL_POINTERS(list, node, ... ) \
+#define LIST_CHECK_NULL_POINTERS(list, node, ... ) \
 {\
     unsigned char errors = 1; \
 \
@@ -35,7 +35,7 @@ extern FILE* graphviz_file;
         return NODE_PTR_NULL; \
 }
 //--------------------------------------------------------------
-#define CHECK_INVALID_ADDRESS(node, ...) \
+#define LIST_CHECK_INVALID_ADDRESS(node, ...) \
 { \
     if (node > list -> last_insert) \
     { \
@@ -45,8 +45,7 @@ extern FILE* graphviz_file;
     } \
 }
 //--------------------------------------------------------------
-
-LIST_ERROR CheckOverFlow (List* list)
+LIST_ERROR ListCheckOverFlow (List* list)
 {
     if (list -> last_insert == list -> node_array && list -> last_insert -> next == 0)
     {
@@ -54,18 +53,26 @@ LIST_ERROR CheckOverFlow (List* list)
         return NO_ERROR;
     }
 
-    size_t delta = ( (size_t)(list -> last_insert) - (size_t)(list -> node_array) ) / sizeof (list_node);
-    printf ("delta = %zu\n", delta);
+    size_t delta_elem = ( ( (size_t)(list -> last_insert) - (size_t)(list -> node_array) ) / sizeof (list_node) ) + 1;
 
-    // -1 for that worked correct
-    if (delta >= list -> capacity - 1)
+    if (delta_elem + 1 >= list -> capacity)
     {
-        DBG(printf ("Realloc\n");)
-        size_t head_offset        = (size_t)list -> head - (size_t)list -> node_array;
-        size_t tail_offset        = (size_t)list -> tail - (size_t)list -> node_array;
-        size_t last_insert_offset = (size_t)list -> last_insert - (size_t)list -> node_array;
+        list_node* node_array = list -> node_array;
+        list_node* node_old_array = (list_node*) calloc (delta_elem, sizeof (list_node));
 
-        list_node* new_node_array = (list_node*) realloc (list -> node_array, (size_t) list -> capacity * INCREASE_COEFFICIENT);
+        for (size_t i = 0; i < delta_elem - 1; ++i)
+        {
+            node_old_array[i].next = node_array -> next;
+            node_old_array[i].prev = node_array -> prev;
+
+            node_array = node_array -> next;
+        }
+
+        size_t head_offset = (size_t)(list -> head) - (size_t)(list -> node_array);
+        size_t tail_offset = (size_t)(list -> tail) - (size_t)(list -> node_array);
+        size_t last_insert_offset = (size_t)(list -> last_insert) - (size_t)(list -> node_array);
+
+        list_node* new_node_array = (list_node*) realloc ((void*)list -> node_array, list -> capacity * INCREASE_COEFFICIENT * sizeof (list_node));
 
         if (new_node_array == NULL)
         {
@@ -75,9 +82,17 @@ LIST_ERROR CheckOverFlow (List* list)
             return OVERFLOW_NODE_ARRAY;
         }
 
-        list -> head        = (list_node*) ((size_t )new_node_array + head_offset);
-        list -> tail        = (list_node*) ((size_t )new_node_array + tail_offset);
-        list -> last_insert = (list_node*) ((size_t )new_node_array + last_insert_offset);
+        size_t delta_address = (size_t)(new_node_array) - (size_t)(list -> node_array);
+
+        for (size_t i = 0; i < delta_elem - 1; ++i)
+        {
+            new_node_array[i].next = (list_node*)( (size_t)(node_old_array[i].next) + (size_t)delta_address );
+            new_node_array[i].prev = (list_node*)( (size_t)(node_old_array[i].prev) + (size_t)delta_address );
+        }
+
+        list -> head        = (list_node*)( (size_t)new_node_array + (size_t)head_offset );
+        list -> tail        = (list_node*)( (size_t)new_node_array + (size_t)tail_offset );
+        list -> last_insert = (list_node*)( (size_t)new_node_array + (size_t)last_insert_offset );
 
         list -> node_array = new_node_array;
         list -> capacity  *= INCREASE_COEFFICIENT;
@@ -86,10 +101,10 @@ LIST_ERROR CheckOverFlow (List* list)
     return NO_ERROR;
 }
 //--------------------------------------------------------------
-LIST_ERROR InsertHead (List* list, TYPE_DATA data)
+LIST_ERROR ListInsertHead (List* list, TYPE_DATA data)
 {
-    CHECK_NULL_POINTERS(list, (list_node*)1 );
-    CheckOverFlow (list);
+    LIST_CHECK_NULL_POINTERS(list, (list_node*)1 );
+    ListCheckOverFlow (list);
     list -> last_insert++;
 
     list_node* last_insert = list -> last_insert;
@@ -107,10 +122,10 @@ LIST_ERROR InsertHead (List* list, TYPE_DATA data)
     return NO_ERROR;
 }
 //--------------------------------------------------------------
-LIST_ERROR InsertTail (List* list, TYPE_DATA data)
+LIST_ERROR ListInsertTail (List* list, TYPE_DATA data)
 {
-    CHECK_NULL_POINTERS(list, (list_node*) 1);
-    CheckOverFlow     (list);
+    LIST_CHECK_NULL_POINTERS(list, (list_node*) 1);
+    ListCheckOverFlow     (list);
     list -> last_insert++;
 
     list_node* last_insert = list -> last_insert;
@@ -128,11 +143,11 @@ LIST_ERROR InsertTail (List* list, TYPE_DATA data)
     return NO_ERROR;
 }
 //--------------------------------------------------------------
-LIST_ERROR InsertAfter (List* list, TYPE_DATA data, list_node* node)
+LIST_ERROR ListInsertAfter (List* list, TYPE_DATA data, list_node* node)
 {
-    CHECK_NULL_POINTERS(list, node);
-    CHECK_INVALID_ADDRESS(node);
-    CheckOverFlow     (list);
+    LIST_CHECK_NULL_POINTERS(list, node);
+    LIST_CHECK_INVALID_ADDRESS(node);
+    ListCheckOverFlow     (list);
 
     list -> last_insert++;
 
@@ -151,11 +166,11 @@ LIST_ERROR InsertAfter (List* list, TYPE_DATA data, list_node* node)
     return NO_ERROR;
 }
 //--------------------------------------------------------------
-LIST_ERROR InsertBelow (List* list, TYPE_DATA data, list_node* node)
+LIST_ERROR ListInsertBelow (List* list, TYPE_DATA data, list_node* node)
 {
-    CHECK_NULL_POINTERS(list, node);
-    CHECK_INVALID_ADDRESS(node);
-    CheckOverFlow (list);
+    LIST_CHECK_NULL_POINTERS(list, node);
+    LIST_CHECK_INVALID_ADDRESS(node);
+    ListCheckOverFlow (list);
 
     list -> last_insert++;
 
@@ -174,36 +189,39 @@ LIST_ERROR InsertBelow (List* list, TYPE_DATA data, list_node* node)
     return NO_ERROR;
 }
 //--------------------------------------------------------------
-LIST_ERROR InsertData (List* list, list_node* node, TYPE_DATA data)
+LIST_ERROR ListInsertData (List* list, list_node* node, TYPE_DATA data)
 {
-    CHECK_NULL_POINTERS(list, node);
-    CHECK_INVALID_ADDRESS(node);
+    LIST_CHECK_NULL_POINTERS   (list, node);
+    LIST_CHECK_INVALID_ADDRESS (node);
 
     node -> data = data;
 
     return NO_ERROR;
 }
 //--------------------------------------------------------------
-list_node* FindData (List* list, TYPE_DATA data)
+LIST_ERROR ListFindData (List* list, TYPE_DATA data, list_node** dest)
 {
-    size_t capacity = list -> capacity;
+    size_t delta = ( (size_t)(list -> last_insert) - (size_t)(list -> node_array) ) / sizeof (list_node);
     list_node* node = list -> head;
 
-    for (size_t i = 0; i < capacity; ++i)
+    for (size_t i = 0; i < delta + 1; ++i)
     {
         if (node -> data == data)
-            return node;
+        {
+            *dest = node;
+            return NO_ERROR;
+        }
 
         node = node -> next;
     }
 
-    return 0;
+    return NODE_NOT_FOUND;
 }
 //--------------------------------------------------------------
-LIST_ERROR FindIndex (List* list, list_node* searched_node, size_t* dest)
+LIST_ERROR ListFindIndex (List* list, list_node* searched_node, size_t* dest)
 {
-    CHECK_NULL_POINTERS(list, searched_node);
-    CHECK_INVALID_ADDRESS(searched_node);
+    LIST_CHECK_NULL_POINTERS(list, searched_node);
+    LIST_CHECK_INVALID_ADDRESS(searched_node);
 
     list_node* node = list -> head;
     size_t delta = ( (size_t)(list -> last_insert) - (size_t)(list -> node_array) ) / sizeof (list_node);
@@ -211,10 +229,37 @@ LIST_ERROR FindIndex (List* list, list_node* searched_node, size_t* dest)
     for (size_t i = 0; i < delta + 1; ++i)
     {
         if (node == searched_node)
+        {
             *dest = i;
+            return NO_ERROR;
+        }
 
         node = node -> next;
     }
+
+    return NODE_NOT_FOUND;
+}
+//--------------------------------------------------------------
+LIST_ERROR ListFindNode (List* list, size_t index, list_node** dest)
+{
+    LIST_CHECK_NULL_POINTERS(list, (list_node*) 1);
+
+    list_node* node = list -> head;
+    for (size_t i = 0; i < index; ++i)
+        node = node -> next;
+
+    *dest = node;
+
+    return NO_ERROR;
+}
+//--------------------------------------------------------------
+LIST_ERROR ListDelete (List* list, size_t index)
+{
+    list_node* node = 0;
+    ListFindNode(list, index, &node);
+
+    node -> next -> prev = node -> prev;
+    node -> prev -> next = node -> next;
 
     return NO_ERROR;
 }

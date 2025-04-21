@@ -2,7 +2,7 @@
 
 #include <stddef.h>
 
-const int START_SIZE_NODE_ARRAY   = 10;
+const int START_SIZE_NODE_ARRAY   = 1;
 const size_t INCREASE_COEFFICIENT = 2;
 
 inline const char* NAME_LIST_LOG_FILE      = "dump/ListLogFile.html";

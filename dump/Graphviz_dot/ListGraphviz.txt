@@ -21,43 +21,43 @@ digraph
 
 		subgraph cluster_node_0_sort
 		{
-			node_0_sort [fillcolor = "#b462ee"label = "address = 0x60ecd2b96330 | next: 0x60ecd2b962a0 | data: -999 | prev: 0x60ecd2b96300"];
+			node_0_sort [fillcolor = "#b462ee"label = "address = 0x5e7f91458e00 | next: 0x5e7f91458d70 | data: -999 | prev: 0x5e7f91458dd0"];
 			label = "0";
 		}
 
 		subgraph cluster_node_1_sort
 		{
-			node_1_sort [label = "address = 0x60ecd2b962a0 | next: 0x60ecd2b962b8 | data: 51 | prev: 0x60ecd2b96330"];
+			node_1_sort [label = "address = 0x5e7f91458d70 | next: 0x5e7f91458d88 | data: 111 | prev: 0x5e7f91458e00"];
 			label = "1";
 		}
 
 		subgraph cluster_node_2_sort
 		{
-			node_2_sort [label = "address = 0x60ecd2b962b8 | next: 0x60ecd2b962d0 | data: 222 | prev: 0x60ecd2b962a0"];
+			node_2_sort [label = "address = 0x5e7f91458d88 | next: 0x5e7f91458da0 | data: 222 | prev: 0x5e7f91458c90"];
 			label = "2";
 		}
 
 		subgraph cluster_node_3_sort
 		{
-			node_3_sort [label = "address = 0x60ecd2b962d0 | next: 0x60ecd2b96318 | data: 333 | prev: 0x60ecd2b962b8"];
+			node_3_sort [label = "address = 0x5e7f91458da0 | next: 0x5e7f91458de8 | data: 333 | prev: 0x5e7f91458858"];
 			label = "3";
 		}
 
 		subgraph cluster_node_4_sort
 		{
-			node_4_sort [label = "address = 0x60ecd2b96318 | next: 0x60ecd2b962e8 | data: 400 | prev: 0x60ecd2b962d0"];
+			node_4_sort [label = "address = 0x5e7f91458de8 | next: 0x5e7f91458db8 | data: 400 | prev: 0x5e7f91458da0"];
 			label = "4";
 		}
 
 		subgraph cluster_node_5_sort
 		{
-			node_5_sort [label = "address = 0x60ecd2b962e8 | next: 0x60ecd2b96300 | data: 443 | prev: 0x60ecd2b96318"];
+			node_5_sort [label = "address = 0x5e7f91458db8 | next: 0x5e7f91458dd0 | data: 443 | prev: 0x5e7f91458de8"];
 			label = "5";
 		}
 
 		subgraph cluster_node_6_sort
 		{
-			node_6_sort [label = "address = 0x60ecd2b96300 | next: 0x60ecd2b96330 | data: 555 | prev: 0x60ecd2b962e8"];
+			node_6_sort [label = "address = 0x5e7f91458dd0 | next: 0x5e7f91458e00 | data: 555 | prev: 0x5e7f91458db8"];
 			label = "6";
 		}
 
@@ -93,44 +93,44 @@ digraph
 
 		subgraph cluster_node_0_unsort
 		{
-			node_0_unsort [label = "index in node array: 0 | address = 0x60ecd2b962a0 | next: 0x60ecd2b962b8 | data: 51 | prev: 0x60ecd2b96330"];
-		label = "1";
+			node_0_unsort [label = "index in node array: 0 | address = 0x5e7f91458d70 | next: 0x5e7f91458d88 | data: 111 | prev: 0x5e7f91458e00"];
+			label = "1";
 		}
 
 		subgraph cluster_node_1_unsort
 		{
-			node_1_unsort [label = "index in node array: 1 | address = 0x60ecd2b962b8 | next: 0x60ecd2b962d0 | data: 222 | prev: 0x60ecd2b962a0"];
-		label = "2";
+			node_1_unsort [label = "index in node array: 1 | address = 0x5e7f91458d88 | next: 0x5e7f91458da0 | data: 222 | prev: 0x5e7f91458c90"];
+			label = "2";
 		}
 
 		subgraph cluster_node_2_unsort
 		{
-			node_2_unsort [label = "index in node array: 2 | address = 0x60ecd2b962d0 | next: 0x60ecd2b96318 | data: 333 | prev: 0x60ecd2b962b8"];
-		label = "3";
+			node_2_unsort [label = "index in node array: 2 | address = 0x5e7f91458da0 | next: 0x5e7f91458de8 | data: 333 | prev: 0x5e7f91458858"];
+			label = "3";
 		}
 
 		subgraph cluster_node_3_unsort
 		{
-			node_3_unsort [label = "index in node array: 3 | address = 0x60ecd2b962e8 | next: 0x60ecd2b96300 | data: 443 | prev: 0x60ecd2b96318"];
-		label = "5";
+			node_3_unsort [label = "index in node array: 3 | address = 0x5e7f91458db8 | next: 0x5e7f91458dd0 | data: 443 | prev: 0x5e7f91458de8"];
+			label = "5";
 		}
 
 		subgraph cluster_node_4_unsort
 		{
-			node_4_unsort [label = "index in node array: 4 | address = 0x60ecd2b96300 | next: 0x60ecd2b96330 | data: 555 | prev: 0x60ecd2b962e8"];
-		label = "6";
+			node_4_unsort [label = "index in node array: 4 | address = 0x5e7f91458dd0 | next: 0x5e7f91458e00 | data: 555 | prev: 0x5e7f91458db8"];
+			label = "6";
 		}
 
 		subgraph cluster_node_5_unsort
 		{
-			node_5_unsort [label = "index in node array: 5 | address = 0x60ecd2b96318 | next: 0x60ecd2b962e8 | data: 400 | prev: 0x60ecd2b962d0"];
-		label = "4";
+			node_5_unsort [label = "index in node array: 5 | address = 0x5e7f91458de8 | next: 0x5e7f91458db8 | data: 400 | prev: 0x5e7f91458da0"];
+			label = "4";
 		}
 
 		subgraph cluster_node_6_unsort
 		{
-			node_6_unsort [fillcolor = "#b462ee"label = "index in node array: 6 | address = 0x60ecd2b96330 | next: 0x60ecd2b962a0 | data: -999 | prev: 0x60ecd2b96300"];
-		label = "0";
+			node_6_unsort [fillcolor = "#b462ee"label = "index in node array: 6 | address = 0x5e7f91458e00 | next: 0x5e7f91458d70 | data: -999 | prev: 0x5e7f91458dd0"];
+			label = "0";
 		}
 
 		fontsize = "20";
@@ -154,11 +154,11 @@ digraph
 		edge [color = "#b2dcff"];
 		color = "#b2dcff";
 
-		head [label = "address = 0x60ecd2b96330 | next: 0x60ecd2b962a0 | data: -999 | prev: 0x60ecd2b96300 "]
-		tail [label = "address = 0x60ecd2b96300 | next: 0x60ecd2b96330 | data: 555 | prev: 0x60ecd2b962e8 "]
-		last_insert [label = "address = 0x60ecd2b96330 | next: 0x60ecd2b962a0 | data: -999 | prev: 0x60ecd2b96300 "]
+		head [label = "address = 0x5e7f91458e00 | next: 0x5e7f91458d70 | data: -999 | prev: 0x5e7f91458dd0 "]
+		tail [label = "address = 0x5e7f91458dd0 | next: 0x5e7f91458e00 | data: 555 | prev: 0x5e7f91458db8 "]
+		last_insert [label = "address = 0x5e7f91458e00 | next: 0x5e7f91458d70 | data: -999 | prev: 0x5e7f91458dd0 "]
 
-		data [label = "list pointer = 0x7fff90fdf820 | list capacity = 10 | start: list node array = 0x60ecd2b962a0 \nend:    list node array = 0x60ecd2b96378"]
+		data [label = "list pointer = 0x7ffec9ed2c00 | list capacity = 8 | start: list node array = 0x5e7f91458d70 \nend:    list node array = 0x5e7f91458e18"]
 
 		subgraph cluster_node_list_data
 		{
@@ -188,9 +188,9 @@ digraph
 			color = "#b2dcff";
 		}
 
-		fontsize = 20;
+		fontsize = 60;
 		fontcolor = black;
-		label = "Struct List   #1";
+		label = "Struct List   #8";
 
 		data -> head -> tail -> last_insert;
 	}

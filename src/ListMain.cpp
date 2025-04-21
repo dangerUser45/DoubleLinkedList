@@ -3,27 +3,37 @@
 #include <ListToolFunctions.h>
 #include <ListDump.h>
 
-#include <stdio.h>
-
+extern FILE* list_log_file;
 //--------------------------------------------------------------
 int main ()
 {
     List list = {}; CtorListCommon (&list);
-    ListDump (&list);
-
-    InsertTail (&list, 111); ListDump (&list);
-    InsertTail (&list, 222); ListDump (&list);
-    InsertTail (&list, 333); ListDump (&list);
-    InsertTail (&list, 443); ListDump (&list);
-    InsertTail (&list, 555); ListDump (&list);
-
-    InsertAfter (&list, 400, &(list.node_array[2])); ListDump (&list);
-    InsertBelow (&list, -999, list.head); ListDump (&list);
-
-    InsertData (&list, &(list.node_array[0]), 51); ListDump (&list);
-
-
     ListGraphDump (&list);
+
+    ListInsertTail (&list, 111); ListGraphDump (&list);
+    ListInsertTail (&list, 222); ListGraphDump (&list);
+    ListInsertTail (&list, 333); ListDump (&list); ListGraphDump (&list);
+    ListInsertTail (&list, 443); ListDump (&list); ListGraphDump (&list);
+
+    ListInsertTail (&list, 555); ListGraphDump (&list);
+
+    ListInsertAfter (&list, 400, &(list.node_array[2])); ListGraphDump (&list);
+    ListInsertBelow (&list, -999, list.head); ListGraphDump (&list);
+
+//     ListInsertData (&list, &(list.node_array[0]), 51); ListGraphDump (&list);
+
+//     list_node* dest_find_data = 0;
+//     ListFindData (&list, 443, &dest_find_data);
+//
+//     size_t index = 0;
+//     ListFindIndex (&list, list.tail, &index);
+//
+//     list_node* dest_find_node = 0;
+//     ListFindNode (&list, index, &dest_find_node);
+//
+//     printf ("dest_find_data = %p\n"
+//             "index = %zu\n"
+//             "dest_find_node = %p\n", dest_find_data, index, dest_find_node);
 
     //InsertAfter (&list, 600, &(list.node_array[0])); ListDump (&list);
 //     InsertTail (&list, 222); ListDump (&list);

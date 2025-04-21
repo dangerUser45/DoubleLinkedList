@@ -12,8 +12,11 @@
 extern FILE* list_log_file;
 extern FILE* list_graphviz_file;
 
+static size_t images_counter = 0;
+
+
 //--------------------------------------------------------------
-#define DumpPart(text) \
+#define ListDumpPart(text) \
 { \
 \
     if (list -> text == NULL)\
@@ -42,9 +45,9 @@ LIST_ERROR ListDump (List* list)
     fprintf (stdout,  BLUE "list capacity = " RESET "%zu\n\n", list -> capacity);
     fflush (stdout);
 
-    DumpPart(head);
-    DumpPart(tail);
-    DumpPart(last_insert);
+    ListDumpPart(head);
+    ListDumpPart(tail);
+    ListDumpPart(last_insert);
 
     list_node* node_array = list -> node_array;
 
@@ -65,13 +68,20 @@ LIST_ERROR ListDump (List* list)
 //--------------------------------------------------------------
 LIST_ERROR ListGraphDump (List* list)
 {
+    // Переоткрытие файла с целью усечения до нулевой длины
+    list_graphviz_file = freopen (NAME_LIST_GRAPHVIZ_FILE, "w", list_graphviz_file);
+
+    ++images_counter;
+
     setvbuf      (list_log_file, NULL, _IONBF, 0);  // Отключение буферизации
     setvbuf (list_graphviz_file, NULL, _IONBF, 0);  // Отключение буферизации
 
     ListCreateDotText (list);
 
     CheckSysRetVal ();
-    ListPrintHtmlIntro ();
+
+    if (images_counter == 1)
+        ListPrintHtmlIntro ();
 
     ListAddImages ();
 
@@ -83,7 +93,11 @@ LIST_ERROR ListGraphDump (List* list)
 //--------------------------------------------------------------
 LIST_ERROR CheckSysRetVal ()
 {
-    int result = system ("dot -Tsvg dump/Graphviz_dot/ListGraphviz.txt -o dump/Graphviz_dot/images/img1.svg");
+    size_t length = snprintf (NULL, 0, "dot -Tsvg dump/Graphviz_dot/ListGraphviz.txt -o dump/Graphviz_dot/images/img%zu.svg", images_counter);
+    char* buffer = (char*) calloc (length + 1, sizeof (char));
+    snprintf (buffer, length + 1, "dot -Tsvg dump/Graphviz_dot/ListGraphviz.txt -o dump/Graphviz_dot/images/img%zu.svg", images_counter);
+
+    int result = system (buffer); // +1 для '\0'
     if (result != 0)
     {
         fprintf (stderr, RED "ERROR in %s: %d line: system (): code error = %d\n" RESET, __FILE__, __LINE__, result);
@@ -122,8 +136,7 @@ LIST_ERROR ListPrintHtmlIntro ()
 LIST_ERROR ListAddImages ()
 {
     fprintf (list_log_file, ""
-    "<img src = \"../dump/Graphviz_dot/images/img1.svg\" class = \"center-horizontally\">\n"
-    );
+    "<img src = \"../dump/Graphviz_dot/images/img%zu.svg\" class = \"center-horizontally\"><br><br>\n", images_counter);
 
     return NO_ERROR;
 }
@@ -131,6 +144,7 @@ LIST_ERROR ListAddImages ()
 LIST_ERROR ListCreateDotText (List* list)
 {
     ListWriteIntro ();
+
     ListWriteSort (list);
     ListWriteUnsort (list);
     ListWriteStructList (list);
@@ -240,15 +254,15 @@ LIST_ERROR ListWriteUnsort (List* list)
                     "node_%zu_unsort [", i);
 
                 size_t index = 0;
-                FindIndex (list, node_array, &index);
+                ListFindIndex (list, node_array, &index);
 
                 if (node_array == list -> last_insert)
                     fprintf (list_graphviz_file, "fillcolor = \"" LAST_INSERT_COLOR "\"");
 
                 fprintf (list_graphviz_file,""
-                    "label = \"index in node array: %zu | address = %p | next: %p | data: %" TYPE_SPECIFIER " | prev: %p\"];\n\t\t"
+                    "label = \"index in node array: %zu | address = %p | next: %p | data: %" TYPE_SPECIFIER " | prev: %p\"];\n\t\t\t"
                     "label = \"%zu\";\n\t\t"
-                "}\n\n\t\t",  i, node_array, node_array -> next, node_array -> data, node_array -> prev, index);  //FIXME label != 1 !!!!
+                "}\n\n\t\t",  i, node_array, node_array -> next, node_array -> data, node_array -> prev, index);
 
                 ++node_array;
             }
@@ -272,9 +286,6 @@ LIST_ERROR ListWriteUnsort (List* list)
 //--------------------------------------------------------------
 LIST_ERROR ListWriteStructList (List* list)
 {
-    static size_t graph_dump_counter = 0;
-                ++graph_dump_counter;
-
     fprintf (list_graphviz_file, ""
     "//-----------------------------------------------------------------------------------------------------------------\n\t"
         "subgraph cluster_struct_list\n\t"
@@ -317,7 +328,7 @@ LIST_ERROR ListWriteStructList (List* list)
                 "color = \"" BACKGROUND_COLOR "\";\n\t\t"
             "}\n\n\t\t"
 
-            "fontsize = 20;\n\t\t"
+            "fontsize = 60;\n\t\t"
             "fontcolor = black;\n\t\t"
             "label = \"Struct List   #%zu\";\n\n\t\t"
 
@@ -327,7 +338,7 @@ LIST_ERROR ListWriteStructList (List* list)
     "}\n", list -> head, list -> head -> next, list -> head -> data, list -> head -> prev,
            list -> tail, list -> tail -> next, list -> tail -> data, list -> tail -> prev,
            list -> last_insert, list -> last_insert -> next, list -> last_insert -> data, list -> last_insert -> prev,
-           list, list -> capacity, list -> node_array, list -> node_array + list -> capacity - 1, graph_dump_counter);
+           list, list -> capacity, list -> node_array, list -> node_array + list -> capacity - 1, images_counter);
 
     return NO_ERROR;
 }
