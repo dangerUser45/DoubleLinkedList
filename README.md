@@ -63,7 +63,7 @@ struct list_node
 
 ## Сборка на Linux
 ```bash
-git clone https://github.com/dangerUser45/Double_Linked_List.git
+git clone https://github.com/dangerUser45/DoubleLinkedList.git
 cd Double_Linked_List/
 make
 ```
