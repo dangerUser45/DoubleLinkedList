@@ -58,7 +58,7 @@
 <g id="node1" class="node">
 <title>node_0_sort</title>
 <path fill="#b462ee" stroke="black" d="M84,-24C84,-24 274,-24 274,-24 280,-24 286,-30 286,-36 286,-36 286,-104 286,-104 286,-110 280,-116 274,-116 274,-116 84,-116 84,-116 78,-116 72,-110 72,-104 72,-104 72,-36 72,-36 72,-30 78,-24 84,-24"/>
-<text text-anchor="middle" x="179" y="-100.8" font-family="Times,serif" font-size="14.00">address = 0x5e7f914582a0</text>
+<text text-anchor="middle" x="179" y="-100.8" font-family="Times,serif" font-size="14.00">address = 0x56220a5f92a0</text>
 <polyline fill="none" stroke="black" points="72,-93 286,-93 "/>
 <text text-anchor="middle" x="179" y="-77.8" font-family="Times,serif" font-size="14.00">next: (nil)</text>
 <polyline fill="none" stroke="black" points="72,-70 286,-70 "/>
@@ -84,7 +84,7 @@
 <path fill="#b462ee" stroke="black" d="M84,-246.5C84,-246.5 274,-246.5 274,-246.5 280,-246.5 286,-252.5 286,-258.5 286,-258.5 286,-349.5 286,-349.5 286,-355.5 280,-361.5 274,-361.5 274,-361.5 84,-361.5 84,-361.5 78,-361.5 72,-355.5 72,-349.5 72,-349.5 72,-258.5 72,-258.5 72,-252.5 78,-246.5 84,-246.5"/>
 <text text-anchor="middle" x="179" y="-346.3" font-family="Times,serif" font-size="14.00">index in node array: 0</text>
 <polyline fill="none" stroke="black" points="72,-338.5 286,-338.5 "/>
-<text text-anchor="middle" x="179" y="-323.3" font-family="Times,serif" font-size="14.00">address = 0x5e7f914582a0</text>
+<text text-anchor="middle" x="179" y="-323.3" font-family="Times,serif" font-size="14.00">address = 0x56220a5f92a0</text>
 <polyline fill="none" stroke="black" points="72,-315.5 286,-315.5 "/>
 <text text-anchor="middle" x="179" y="-300.3" font-family="Times,serif" font-size="14.00">next: (nil)</text>
 <polyline fill="none" stroke="black" points="72,-292.5 286,-292.5 "/>
@@ -96,7 +96,7 @@
 <g id="node3" class="node">
 <title>head</title>
 <path fill="#febe5e" stroke="black" d="M418,-455C418,-455 608,-455 608,-455 614,-455 620,-461 620,-467 620,-467 620,-535 620,-535 620,-541 614,-547 608,-547 608,-547 418,-547 418,-547 412,-547 406,-541 406,-535 406,-535 406,-467 406,-467 406,-461 412,-455 418,-455"/>
-<text text-anchor="middle" x="513" y="-531.8" font-family="Times,serif" font-size="14.00">address = 0x5e7f914582a0</text>
+<text text-anchor="middle" x="513" y="-531.8" font-family="Times,serif" font-size="14.00">address = 0x56220a5f92a0</text>
 <polyline fill="none" stroke="black" points="406,-524 620,-524 "/>
 <text text-anchor="middle" x="513" y="-508.8" font-family="Times,serif" font-size="14.00">next: (nil)</text>
 <polyline fill="none" stroke="black" points="406,-501 620,-501 "/>
@@ -108,7 +108,7 @@
 <g id="node4" class="node">
 <title>tail</title>
 <path fill="#febe5e" stroke="black" d="M704,-455C704,-455 894,-455 894,-455 900,-455 906,-461 906,-467 906,-467 906,-535 906,-535 906,-541 900,-547 894,-547 894,-547 704,-547 704,-547 698,-547 692,-541 692,-535 692,-535 692,-467 692,-467 692,-461 698,-455 704,-455"/>
-<text text-anchor="middle" x="799" y="-531.8" font-family="Times,serif" font-size="14.00">address = 0x5e7f914582a0</text>
+<text text-anchor="middle" x="799" y="-531.8" font-family="Times,serif" font-size="14.00">address = 0x56220a5f92a0</text>
 <polyline fill="none" stroke="black" points="692,-524 906,-524 "/>
 <text text-anchor="middle" x="799" y="-508.8" font-family="Times,serif" font-size="14.00">next: (nil)</text>
 <polyline fill="none" stroke="black" points="692,-501 906,-501 "/>
@@ -126,7 +126,7 @@
 <g id="node5" class="node">
 <title>last_insert</title>
 <path fill="#febe5e" stroke="black" d="M990,-455C990,-455 1180,-455 1180,-455 1186,-455 1192,-461 1192,-467 1192,-467 1192,-535 1192,-535 1192,-541 1186,-547 1180,-547 1180,-547 990,-547 990,-547 984,-547 978,-541 978,-535 978,-535 978,-467 978,-467 978,-461 984,-455 990,-455"/>
-<text text-anchor="middle" x="1085" y="-531.8" font-family="Times,serif" font-size="14.00">address = 0x5e7f914582a0</text>
+<text text-anchor="middle" x="1085" y="-531.8" font-family="Times,serif" font-size="14.00">address = 0x56220a5f92a0</text>
 <polyline fill="none" stroke="black" points="978,-524 1192,-524 "/>
 <text text-anchor="middle" x="1085" y="-508.8" font-family="Times,serif" font-size="14.00">next: (nil)</text>
 <polyline fill="none" stroke="black" points="978,-501 1192,-501 "/>
@@ -144,12 +144,12 @@
 <g id="node6" class="node">
 <title>data</title>
 <path fill="#febe5e" stroke="black" d="M36,-459C36,-459 322,-459 322,-459 328,-459 334,-465 334,-471 334,-471 334,-531 334,-531 334,-537 328,-543 322,-543 322,-543 36,-543 36,-543 30,-543 24,-537 24,-531 24,-531 24,-471 24,-471 24,-465 30,-459 36,-459"/>
-<text text-anchor="middle" x="179" y="-527.8" font-family="Times,serif" font-size="14.00">list pointer = 0x7ffec9ed2c00</text>
+<text text-anchor="middle" x="179" y="-527.8" font-family="Times,serif" font-size="14.00">list pointer = 0x7ffcc4e0dc70</text>
 <polyline fill="none" stroke="black" points="24,-520 334,-520 "/>
 <text text-anchor="middle" x="179" y="-504.8" font-family="Times,serif" font-size="14.00">list capacity = 1</text>
 <polyline fill="none" stroke="black" points="24,-497 334,-497 "/>
-<text text-anchor="middle" x="179" y="-481.8" font-family="Times,serif" font-size="14.00">start: list node array = 0x5e7f914582a0 </text>
-<text text-anchor="middle" x="179" y="-466.8" font-family="Times,serif" font-size="14.00">end: list node array = 0x5e7f914582a0</text>
+<text text-anchor="middle" x="179" y="-481.8" font-family="Times,serif" font-size="14.00">start: list node array = 0x56220a5f92a0 </text>
+<text text-anchor="middle" x="179" y="-466.8" font-family="Times,serif" font-size="14.00">end: list node array = 0x56220a5f92a0</text>
 </g>
 <!-- data&#45;&gt;head -->
 <g id="edge3" class="edge">
