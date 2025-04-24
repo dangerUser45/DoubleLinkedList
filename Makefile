@@ -7,7 +7,7 @@ IMG         = images/
 CXX         = g++
 CXXFLAGS	= -I./include
 
-CPPSRC 		= $(SRC)ListMain.cpp $(SRC)ListCtorDtor.cpp $(SRC)ListToolFunctions.cpp $(SRC)ListDump.cpp
+CPPSRC 		= $(SRC)ListCtorDtor.cpp $(SRC)ListToolFunctions.cpp $(SRC)ListDump.cpp
 CPPOBJ 		= $(CPPSRC:$(SRC)%.cpp=$(B)%.o)
 CPPDEP     := $(patsubst %.o, %.d, $(CPPOBJ))
 
