@@ -7,20 +7,25 @@ extern FILE* list_log_file;
 //--------------------------------------------------------------
 int main ()
 {
-    List list = {}; CtorListCommon (&list);
-    ListGraphDump (&list);
+    List* list = CtorListCommon ();
+    ListDump (list);
+    ListGraphDump (list);
 
-    ListInsertTail (&list, 111); ListGraphDump (&list);
-    ListInsertTail (&list, 222); ListGraphDump (&list);
-    ListInsertTail (&list, 333); ListDump (&list); ListGraphDump (&list);
-    ListInsertTail (&list, 443); ListDump (&list); ListGraphDump (&list);
+    ListInsertTail (list, 111); ListDump (list);ListGraphDump (list);
+    ListInsertTail (list, 222); ListDump (list); ListGraphDump (list);
+    ListInsertTail (list, 333); ListDump (list); ListGraphDump (list);
+    ListInsertTail (list, 443); ListDump (list); ListGraphDump (list);
+    ListInsertData (list, 0, 10);
 
-    ListInsertTail (&list, 555); ListGraphDump (&list);
+    ListInsertTail (list, 555); ListDump (list); ListGraphDump (list);
 
-    ListInsertAfter (&list, 400, &(list.node_array[2])); ListGraphDump (&list);
-    ListInsertBelow (&list, -999, list.head); ListGraphDump (&list);
+    ListInsertAfter (list, 2,  400); ListDump (list);  ListGraphDump (list);
+    ListInsertBelow (list, 0, -999); ListDump (list); ListGraphDump (list);
 
-    DtorListCommon (&list);
+    ListInsertBelow (list, 6, 777); ListDump (list); ListGraphDump (list);
+    ListInsertData  (list, 7, 888); ListDump (list); ListGraphDump (list);
+    ListInsertTail (list, 5410);ListDump (list); ListGraphDump (list);
+
+    DtorListCommon (list);
 }
 //--------------------------------------------------------------
-

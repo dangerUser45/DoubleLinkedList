@@ -2,11 +2,11 @@
 
 #include <stddef.h>
 
-const int START_SIZE_NODE_ARRAY   = 1;
+const int START_SIZE_NODE_ARRAY   = 2;
 const size_t INCREASE_COEFFICIENT = 2;
 
-inline const char* NAME_LIST_LOG_FILE      = "dump/ListLogFile.html";
-inline const char* NAME_LIST_GRAPHVIZ_FILE = "dump/Graphviz_dot/ListGraphviz.txt";
+inline const char* NAME_LIST_LOG_FILE      = "list/dump/ListLogFile.html";
+inline const char* NAME_LIST_GRAPHVIZ_FILE = "list/dump/Graphviz_dot/ListGraphviz.txt";
 
 #define  BACKGROUND_COLOR "#b2dcff"
 #define STRUCT_DATA_COLOR "#febe5e"

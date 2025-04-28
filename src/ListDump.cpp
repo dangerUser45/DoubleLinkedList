@@ -14,7 +14,6 @@ extern FILE* list_graphviz_file;
 
 static size_t images_counter = 0;
 
-
 //--------------------------------------------------------------
 #define ListDumpPart(text) \
 { \

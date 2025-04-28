@@ -45,6 +45,16 @@ extern FILE* list_log_file;
     } \
 }
 //--------------------------------------------------------------
+#define LIST_CHECK_INDEX(list, index)\
+{\
+    size_t delta_elem = ( ( (size_t)(list -> last_insert) - (size_t)(list -> node_array) ) / sizeof (list_node) ) + 1;\
+    if (index > delta_elem - 1)\
+    {\
+        fprintf (stderr, RED "ERROR in %s: %d line: InsertData (): invalid index in node array\n" RESET, __FILE__, __LINE__); \
+        return INVALID_INDEX;\
+    }\
+}
+//--------------------------------------------------------------
 LIST_ERROR ListCheckOverFlow (List* list)
 {
     if (list -> last_insert == list -> node_array && list -> last_insert -> next == 0)
@@ -55,48 +65,45 @@ LIST_ERROR ListCheckOverFlow (List* list)
 
     size_t delta_elem = ( ( (size_t)(list -> last_insert) - (size_t)(list -> node_array) ) / sizeof (list_node) ) + 1;
 
-    if (delta_elem + 1 >= list -> capacity)
+    if (delta_elem + 1 > list -> capacity)
     {
-        list_node* node_array = list -> node_array;
-        list_node* node_old_array = (list_node*) calloc (delta_elem, sizeof (list_node));
-
-        for (size_t i = 0; i < delta_elem - 1; ++i)
-        {
-            node_old_array[i].next = node_array -> next;
-            node_old_array[i].prev = node_array -> prev;
-
-            node_array = node_array -> next;
-        }
-
-        size_t head_offset = (size_t)(list -> head) - (size_t)(list -> node_array);
-        size_t tail_offset = (size_t)(list -> tail) - (size_t)(list -> node_array);
-        size_t last_insert_offset = (size_t)(list -> last_insert) - (size_t)(list -> node_array);
-
-        list_node* new_node_array = (list_node*) realloc ((void*)list -> node_array, list -> capacity * INCREASE_COEFFICIENT * sizeof (list_node));
-
-        if (new_node_array == NULL)
-        {
-            fprintf (stderr, RED "ERROR in %s, %d CheckOverFlow(): new_node_array = null\n" RESET, __FILE__, __LINE__);
-            fflush (stdout);
-            free (list -> node_array);
-            return OVERFLOW_NODE_ARRAY;
-        }
-
-        size_t delta_address = (size_t)(new_node_array) - (size_t)(list -> node_array);
-
-        for (size_t i = 0; i < delta_elem - 1; ++i)
-        {
-            new_node_array[i].next = (list_node*)( (size_t)(node_old_array[i].next) + (size_t)delta_address );
-            new_node_array[i].prev = (list_node*)( (size_t)(node_old_array[i].prev) + (size_t)delta_address );
-        }
-
-        list -> head        = (list_node*)( (size_t)new_node_array + (size_t)head_offset );
-        list -> tail        = (list_node*)( (size_t)new_node_array + (size_t)tail_offset );
-        list -> last_insert = (list_node*)( (size_t)new_node_array + (size_t)last_insert_offset );
-
-        list -> node_array = new_node_array;
-        list -> capacity  *= INCREASE_COEFFICIENT;
+        LIST_ERROR error = ListIncreaseNodeArray (list, delta_elem);
+        return error;
     }
+
+    return NO_ERROR;
+}
+//--------------------------------------------------------------
+LIST_ERROR ListIncreaseNodeArray (List* list, size_t delta_elem)
+{
+    list_node* old_node_array = list -> node_array;
+    list_node* new_node_array = (list_node*) calloc (list -> capacity * INCREASE_COEFFICIENT, sizeof (list_node));
+
+    if (new_node_array == NULL)
+    {
+        fprintf (stderr, RED "ERROR in %s, %d CheckOverFlow(): new_node_array = null\n" RESET, __FILE__, __LINE__);
+        fflush (stdout);
+        free (old_node_array);
+        return OVERFLOW_NODE_ARRAY;
+    }
+
+    size_t delta_address = (size_t)(new_node_array) - (size_t)(old_node_array);
+
+    for (size_t i = 0; i <= delta_elem - 1; ++i)
+    {
+        new_node_array[i].data = old_node_array[i].data;
+        new_node_array[i].next = (list_node*) ( (size_t)(old_node_array[i].next) + delta_address );
+        new_node_array[i].prev = (list_node*) ( (size_t)(old_node_array[i].prev) + delta_address );
+    }
+
+    list -> head        = (list_node*) ( (size_t)(list -> head)        + delta_address);
+    list -> tail        = (list_node*) ( (size_t)(list -> tail)        + delta_address);
+    list -> last_insert = (list_node*) ( (size_t)(list -> last_insert) + delta_address);
+
+    list -> node_array  = new_node_array;
+    list -> capacity   *= INCREASE_COEFFICIENT;
+
+    free (old_node_array);
 
     return NO_ERROR;
 }
@@ -143,15 +150,17 @@ LIST_ERROR ListInsertTail (List* list, TYPE_DATA data)
     return NO_ERROR;
 }
 //--------------------------------------------------------------
-LIST_ERROR ListInsertAfter (List* list, TYPE_DATA data, list_node* node)
+LIST_ERROR ListInsertAfter (List* list, size_t index, TYPE_DATA data)
 {
-    LIST_CHECK_NULL_POINTERS(list, node);
-    LIST_CHECK_INVALID_ADDRESS(node);
+    LIST_CHECK_NULL_POINTERS(list, (list_node*)1);
+    LIST_CHECK_INDEX(list, index);
     ListCheckOverFlow     (list);
 
     list -> last_insert++;
 
     list_node* last_insert = list -> last_insert;
+    list_node* node = 0;
+    ListFindNode (list, index, &node);
 
     last_insert -> next = node -> next;
     last_insert -> data = data;
@@ -166,15 +175,17 @@ LIST_ERROR ListInsertAfter (List* list, TYPE_DATA data, list_node* node)
     return NO_ERROR;
 }
 //--------------------------------------------------------------
-LIST_ERROR ListInsertBelow (List* list, TYPE_DATA data, list_node* node)
+LIST_ERROR ListInsertBelow (List* list, size_t index, TYPE_DATA data)
 {
-    LIST_CHECK_NULL_POINTERS(list, node);
-    LIST_CHECK_INVALID_ADDRESS(node);
+    LIST_CHECK_NULL_POINTERS(list, (list_node*)1);
+    LIST_CHECK_INDEX(list, index);
     ListCheckOverFlow (list);
 
     list -> last_insert++;
 
     list_node* last_insert = list -> last_insert;
+    list_node* node = 0;
+    ListFindNode (list, index, &node);
 
     last_insert -> next = node;
     last_insert -> data = data;
@@ -189,10 +200,13 @@ LIST_ERROR ListInsertBelow (List* list, TYPE_DATA data, list_node* node)
     return NO_ERROR;
 }
 //--------------------------------------------------------------
-LIST_ERROR ListInsertData (List* list, list_node* node, TYPE_DATA data)
+LIST_ERROR ListInsertData (List* list, size_t index, TYPE_DATA data)
 {
-    LIST_CHECK_NULL_POINTERS   (list, node);
-    LIST_CHECK_INVALID_ADDRESS (node);
+    LIST_CHECK_NULL_POINTERS   (list, (list_node*)1);
+    LIST_CHECK_INDEX(list, index)
+
+    list_node* node = 0;
+    ListFindNode (list, index, &node);
 
     node -> data = data;
 

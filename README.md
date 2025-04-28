@@ -1,5 +1,5 @@
 # Двусвязный список
-![Проблемы с изображением](data/List.jpg)
+![Проблемы с изображением](README_assets/List.jpg)
 Небольшая библиотека для создания и использования двусвязного списка
 ## Структура данных
 В проекте используется структура ```list_node```:
@@ -8,38 +8,38 @@ struct list_node
 {
     list_node* next;
     list_node* prev;
-    TYPE_DATA  data;
+    TYPE_README_assets  README_assets;
 }
 ```
 ## Основные функции
 
 - ```ListInsertHead ()``` - функция вставки в начало
     ```cpp
-    LIST_ERROR ListInsertHead (List* list, TYPE_DATA data)
+    LIST_ERROR ListInsertHead (List* list, TYPE_README_assets README_assets)
     ```
 <br>
 
 - ```ListInsertTail ()``` - функция вставки в конец
     ```cpp
-    LIST_ERROR ListInsertTail (List* list, TYPE_DATA data)
+    LIST_ERROR ListInsertTail (List* list, TYPE_README_assets README_assets)
     ```
 <br>
 
 - ```ListInsertAfter ()``` - функция вставки после какого-нибудь элемента
     ```cpp
-    LIST_ERROR ListInsertAfter (List* list, TYPE_DATA data, list_node* node)
+    LIST_ERROR ListInsertAfter (List* list, TYPE_README_assets README_assets, list_node* node)
     ```
 <br>
 
-- ```ListInsertData ()``` - функция изменения данных
+- ```ListInsertREADME_assets ()``` - функция изменения данных
     ```cpp
-    LIST_ERROR ListInsertData (List* list, list_node* node, TYPE_DATA data)
+    LIST_ERROR ListInsertREADME_assets (List* list, list_node* node, TYPE_README_assets README_assets)
     ```
 <br>
 
-- ```ListFindData``` - функция поиска элемента по данным
+- ```ListFindREADME_assets``` - функция поиска элемента по данным
     ```cpp
-    LIST_ERROR ListFindData (List* list, TYPE_DATA data, list_node** dest)
+    LIST_ERROR ListFindREADME_assets (List* list, TYPE_README_assets README_assets, list_node** dest)
     ```
 <br>
 
@@ -55,11 +55,11 @@ struct list_node
 Для отладки в проекте используются 2 вида "дампа": <br>
 - "Графический дамп" на основе [**Graphviz Dot**](https://graphviz.org/doc/infolang.html) cо своим не сложным языком.
     - Вызывается с помощью ```ListGraphDump ()```
-    - ![Проблемы с изображением](data/ExampleGraphDump.svg)
+    - ![Проблемы с изображением](README_assets/ExampleGraphDump.svg)
 
 - "Консольный"
     - Вызывается с помощью ```ListDump ()```
-    - ![Проблемы с изображением](data/ExampleConsoleDump.png)
+    - ![Проблемы с изображением](README_assets/ExampleConsoleDump.png)
 
 ## Сборка на Linux
 ```bash
